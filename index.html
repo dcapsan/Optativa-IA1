@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clasificador Teachable Machine</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Dependencias de TensorFlow.js y Teachable Machine -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Clasificador de Imagen en Tiempo Real</h1>
+      <p class="subtitle">Modelo entrenado con Teachable Machine & TensorFlow.js</p>
+    </header>
+
+    <main class="grid-layout">
+      <!-- Panel de Visión -->
+      <section class="card vision-card">
+        <div class="view-container">
+          <div id="webcam-container"></div>
+          <img id="image-preview" alt="Vista previa de imagen subida" style="display: none;">
+        </div>
+
+        <!-- Controles de Webcam -->
+        <div class="button-group">
+          <button id="btn-start" class="btn btn-primary" onclick="startWebcam()">Iniciar Webcam</button>
+          <button id="btn-stop" class="btn btn-danger" onclick="stopWebcam()" disabled>Detener</button>
+        </div>
+
+        <!-- Subida de Imagen -->
+        <div class="upload-section">
+          <label for="image-upload" class="custom-file-upload">
+            📁 Subir imagen para analizar
+          </label>
+          <input type="file" id="image-upload" accept="image/*" onchange="handleImageUpload(event)">
+        </div>
+
+        <!-- Control de Umbral -->
+        <div class="threshold-control">
+          <div class="threshold-header">
+            <label for="threshold-slider">Umbral mínimo de coincidencia:</label>
+            <span id="threshold-val">70%</span>
+          </div>
+          <input type="range" id="threshold-slider" min="10" max="95" value="70" step="5" oninput="updateThreshold(this.value)">
+        </div>
+      </section>
+
+      <!-- Panel de Resultados y Feedback -->
+      <section class="card results-card">
+        <h2>Detección Actual</h2>
+        <div id="custom-message" class="alert-box alert-waiting">
+          Inicia la cámara o sube una imagen para comenzar.
+        </div>
+
+        <div id="label-container" class="bars-container"></div>
+
+        <hr>
+
+        <div class="history-header">
+          <h2>Historial de Predicciones</h2>
+          <button class="btn btn-secondary btn-sm" onclick="clearHistory()">Limpiar</button>
+        </div>
+        <ul id="history-list" class="history-list">
+          <li class="history-empty">No hay registros aún.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
